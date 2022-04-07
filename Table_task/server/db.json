@@ -1,0 +1,162 @@
+
+{
+    "anagrafica":
+        [
+            {
+            "id": 555,
+            "RagioneSociale": "Noemi Luciani",
+            "Indirizzo": "Via Ponte Schiavo 9",
+            "Citta": "Roma",
+            "Prov": "RM",
+            "CAP": "00133",
+            "PIVA": "",
+            "CF": "LCNNM089H50H501M",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 959,
+            "RagioneSociale": "NESA srl",
+            "Indirizzo": "Via Sartori 6/8",
+            "Citta": "Vidor",
+            "Prov": "TV",
+            "CAP": "31020",
+            "PIVA": "01422830990",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 35,
+            "RagioneSociale": "Tor Carbone",
+            "Indirizzo": "",
+            "Citta": "",
+            "Prov": "",
+            "CAP": "",
+            "PIVA": "",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 36,
+            "RagioneSociale": "ETI",
+            "Indirizzo": "Via Lanuvia,8",
+            "Citta": "Velletri",
+            "Prov": "RM",
+            "CAP": "49",
+            "PIVA": "5784291006",
+            "CF": "5784291006",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 37,
+            "RagioneSociale": "CIVITUS",
+            "Indirizzo": "Viale Parioli, 56",
+            "Citta": "ROMA",
+            "Prov": "RM",
+            "CAP": "197",
+            "PIVA": "11986401005",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 38,
+            "RagioneSociale": "DE.FI SRL",
+            "Indirizzo": "Via del Forte Tiburtino, 100",
+            "Citta": "ROMA",
+            "Prov": "RM",
+            "CAP": "159",
+            "PIVA": "",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 39,
+            "RagioneSociale": "Avv. Massimiliano Iaione (Filosi)",
+            "Indirizzo": "",
+            "Citta": "",
+            "Prov": "",
+            "CAP": "",
+            "PIVA": "",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 40,
+            "RagioneSociale": "SIMEST",
+            "Indirizzo": "Corso Vittorio Emanuele II, 323",
+            "Citta": "ROMA",
+            "Prov": "RM",
+            "CAP": "186",
+            "PIVA": "",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 41,
+            "RagioneSociale": "Bazzucchi",
+            "Indirizzo": "",
+            "Citta": "",
+            "Prov": "",
+            "CAP": "",
+            "PIVA": "",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 43,
+            "RagioneSociale": "Avv. Guerra",
+            "Indirizzo": "",
+            "Citta": "",
+            "Prov": "",
+            "CAP": "",
+            "PIVA": "",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 44,
+            "RagioneSociale": "Arch. Ruetta gabriella",
+            "Indirizzo": "",
+            "Citta": "",
+            "Prov": "",
+            "CAP": "",
+            "PIVA": "",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            },
+            {
+            "id": 51,
+            "RagioneSociale": "DI CATALDO SAVINO",
+            "Indirizzo": "VIA MERANO, 201/B",
+            "Citta": "ROMA",
+            "Prov": "RM",
+            "CAP": "00124",
+            "PIVA": "03272980586",
+            "CF": "",
+            "Telefono": "",
+            "Fax": "",
+            "Email": ""
+            }
+        ]
+}
