@@ -1,0 +1,45 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+    width: 100%;
+}
+
+.main {
+    background: #f46b6b;
+    margin: 0 auto;
+    height: 1000px;
+    width: 1000px;
+}
+
+.main-due {
+    background: #6bf49d;
+    margin: 0 auto;
+    height: 1000px;
+    width: 1000px;
+}
+
+.wrapper-form {
+    background: rgba(0, 0, 0, 0.7);
+    bottom: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.item {
+    background: #212121;
+    margin: 0 auto;
+    height: 300px;
+    width: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
