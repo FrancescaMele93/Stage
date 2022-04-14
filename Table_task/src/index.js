@@ -1,9 +1,36 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-$(document).on('ready', function() {
-    let newId = 1;
 
+let submitClass;
+let submitValue;
+let thisPos = $(this);
+
+// Fills the edit form's inputs with the values from the table
+function fillInput(position) {
+    console.log('fillInput')
+    return thisPos.closest('tr').find(position).html();
+};
+
+// Changes the form's button's value and class, for saving or editing
+function fillSubmitClass() {
+    console.log('fillSubmitClass')
+    if (fillInput('td:eq(0)')) {
+        console.log('if clause');
+        submitClass = 'btn-save';
+        submitValue = 'Salva';
+    } else {
+        console.log('else clause');
+        submitClass = 'btn-add';
+        submitValue = 'Aggiungi';
+    }
+};
+
+$(document).on('ready', function() {
+    // Initialise id counter
+    let newId = 960;
+
+    // Initialise DataTable
     $('#myTable').DataTable( {
         ajax: {
             url: 'http://localhost:3000/anagrafica',
@@ -38,10 +65,16 @@ $(document).on('ready', function() {
         ]
     });
 
+    // Create New Contact button
     $('#myTable_length').append('<button class="btn-new">Nuovo contatto</button>');
 
+    // Manage New Contact button
     $('.btn-new').on('click', function() {
         $('#myTable_wrapper').addClass('my-table-wrapper');
+
+        // Reinitialise "this" and call function for submit input
+        thisPos = $(this);
+        fillSubmitClass();
 
         // Open form for new entry
         let newContactForm = `
@@ -51,7 +84,7 @@ $(document).on('ready', function() {
                         <p>
                             <label>Ragione sociale:</label>
                             <br>
-                            <input class="edit-inputs ragione-sociale-inp">
+                            <input class="edit-inputs ragione-sociale-inp" autofocus>
                         </p>
                         <p>
                             <label>Indirizzo:</label>
@@ -101,42 +134,34 @@ $(document).on('ready', function() {
                             <input class="edit-inputs email-inp">
                         </p>
                     </div>
-                    <div class="save-btn-div new-form-btns">
+                    <div class="save-btn-div">
+                        <input type="submit" class="${submitClass}" value="${submitValue}">
                         <button class="btn-cancel">Annulla</button>
-                        <input type="submit" class="btn-add" value="Aggiungi">
                     </div>
                 </form>
             </div>
         `;
-
         $('.btn-new').after(newContactForm);
 
+        // Manage Add button
         $('.btn-add').on('click', function(e) {
             e.preventDefault();
             
+            // Create new entry, append it to last tr, and give its tr an odd/even class
+            let firstRow = $('tbody').find('tr:eq(0)');
             let newEntry = `
                 <tr>
                     <td class="sorting_1">${newId}</td>
-                    <td class="edit-inputs ragioneSociale">${$('.ragione-sociale-inp').val()}
-                    </td>
-                    <td class="indirizzo">${$('.indirizzo-inp').val()}
-                    </td>
-                    <td class="edit-inputs city">${$('.citta-inp').val()}
-                    </td>
-                    <td class="edit-inputs prov">${$('.prov-inp').val()}
-                    </td>
-                    <td class="edit-inputs cap">${$('.cap-inp').val()}
-                    </td>
-                    <td class="edit-inputs piva">${$('.piva-inp').val()}
-                    </td>
-                    <td class="edit-inputs cf">${$('.cf-inp').val()}
-                    </td>
-                    <td class="edit-inputs phone">${$('.phone-inp').val()}
-                    </td>
-                    <td class="edit-inputs fax">${$('.fax-inp').val()}
-                    </td>
-                    <td class="email">${$('.email-inp').val()}
-                    </td>
+                    <td class="edit-inputs ragioneSociale">${$('.ragione-sociale-inp').val()}</td>
+                    <td class="indirizzo">${$('.indirizzo-inp').val()}</td>
+                    <td class="edit-inputs city">${$('.citta-inp').val()}</td>
+                    <td class="edit-inputs prov">${$('.prov-inp').val()}</td>
+                    <td class="edit-inputs cap">${$('.cap-inp').val()}</td>
+                    <td class="edit-inputs piva">${$('.piva-inp').val()}</td>
+                    <td class="edit-inputs cf">${$('.cf-inp').val()}</td>
+                    <td class="edit-inputs phone">${$('.phone-inp').val()}</td>
+                    <td class="edit-inputs fax">${$('.fax-inp').val()}</td>
+                    <td class="email">${$('.email-inp').val()}</td>
                     <td>
                         <button class="btn-edit">Modifica</button>
                     </td>
@@ -145,9 +170,6 @@ $(document).on('ready', function() {
                     </td>
                 </tr>
             `
-
-            // Create new entry and give tr an odd/even class
-            let firstRow = $('tbody').find('tr:eq(0)');
 
             if (firstRow.hasClass("odd")) {
                 firstRow.before(newEntry);
@@ -160,6 +182,7 @@ $(document).on('ready', function() {
             // Increase ID number by 1 at each new entry
             newId = parseInt($('.sorting_1').html(), 10) + 1;
             
+            // Remove form and wrapper's bg class
             $(this).closest('.edit-div').remove();
             $('#myTable_wrapper').removeClass('my-table-wrapper');
         })
@@ -167,30 +190,28 @@ $(document).on('ready', function() {
 });
 
 $('#myTable').on('click', '.btn-delete', function() {
-    let currentRow = $(this).closest('tr');
-
-    currentRow.next('.edit-form').remove();
-    currentRow.remove();
+    $(this).closest('tr').remove();
 });
 
 
 $('#myTable').on('click', '.btn-edit', function() {
-    let thisPos = $(this);
-    let fillInput = function(position) {
-        return thisPos.closest('tr').find(position).html();
-    };
-
+    // Add class to make wrapper fixed
     $('#myTable_wrapper').addClass('my-table-wrapper');
-    // $(this).closest('.btn-edit').hide();
     $(this).parent().parent().addClass('selectedRow');
-    $(this).closest('tr').after(`
+    
+    // Reinitialise "this" and call function for submit input
+    thisPos = $(this);
+    fillSubmitClass();
+
+    // Initialise and create form
+    let form = `
         <div class="edit-div">
             <form class="edit-form row">
                 <div class="col-6">
                     <p>
                         <label>Ragione sociale:</label>
                         <br>
-                        <input class="edit-inputs ragione-sociale-inp" value="${fillInput('td:eq(1)')}">
+                        <input class="edit-inputs ragione-sociale-inp" value="${fillInput('td:eq(1)')}" autofocus>
                     </p>
                     <p>
                         <label>Indirizzo:</label>
@@ -240,13 +261,24 @@ $('#myTable').on('click', '.btn-edit', function() {
                         <input class="edit-inputs email-inp" value="${fillInput('td:eq(10)')}">
                     </p>
                 </div>
-                <div class="save-btn-div new-form-btns">
+                <div class="save-btn-div">
+                    <input type="submit" class="${submitClass}" value="${submitValue}">
                     <button class="btn-cancel">Annulla</button>
-                    <input type="submit" class="btn-save" value="Salva">
                 </div>
             </form>
         </div>
-    `);
+    `;
+    $('.ragione-sociale-inp').trigger();
+    $(this).closest('tr').after(form);
+
+    // Add ID line
+    $('.edit-form').prepend(`
+        <div class="col-12 ahoo">
+            <p>
+                <strong><label>ID: ${fillInput('td:eq(0)')}</label></strong>
+            </p>
+        </div>
+    `)
 });
 
 $('body').on('click', '.btn-cancel', function(e) {
@@ -261,7 +293,6 @@ $('#myTable').on('click', '.btn-save', function() {
 
     function newValues(tdClass, inputClass) {
         selectedRow.find(tdClass).text($(inputClass).val());
-        selectedRow.removeClass('selectedRow');
     }
 
     newValues('.ragioneSociale', '.ragione-sociale-inp');
@@ -276,5 +307,6 @@ $('#myTable').on('click', '.btn-save', function() {
     newValues('.email', '.email-inp');
     
     $(this).closest('.edit-div').remove();
+    selectedRow.removeClass('selectedRow');
     $('#myTable_wrapper').removeClass('my-table-wrapper');
 });
