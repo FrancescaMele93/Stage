@@ -1,7 +1,6 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-
 let submitClass;
 let submitValue;
 let thisPos = $(this);
@@ -24,7 +23,7 @@ function fillSubmitClass() {
 
 $(document).on('ready', function() {
     // Initialise id counter
-    let newId = 960;
+    let newId = 1;
 
     // Initialise DataTable
     $('#myTable').DataTable( {
@@ -48,13 +47,13 @@ $(document).on('ready', function() {
         columnDefs: [ 
             {
                 render: function() {
-                    return '<button class="btn-edit">Modifica</button>';
+                    return '<button class="btn-edit btn btn-outline-secondary">Modifica</button>';
                 },
                 targets: 11
             },
             {
                 render: function() {
-                    return '<button class="btn-delete">Elimina</button>';
+                    return '<button class="btn-delete btn btn-outline-secondary">Elimina</button>';
                 },
                 targets: 12
             }
@@ -62,10 +61,12 @@ $(document).on('ready', function() {
     });
 
     // Create New Contact button
-    $('#myTable_length').append('<button class="btn-new">Nuovo contatto</button>');
+    $('#myTable_length').append('<button class="btn-new btn btn-outline-secondary">Nuovo contatto</button>');
 
     // Manage New Contact button
     $('.btn-new').on('click', function() {
+        $('#navbar').hide();
+        $('footer').hide();
         $('#myTable_wrapper').addClass('my-table-wrapper');
 
         // Reinitialise "this" and call function for submit input
@@ -112,7 +113,7 @@ $(document).on('ready', function() {
                             <input class="edit-inputs piva-inp">
                         </p>
                         <p>
-                            <label>Codice ficale:</label>
+                            <label>Codice fiscale:</label>
                             <br>
                             <input class="edit-inputs cf-inp">
                         </p>
@@ -133,8 +134,8 @@ $(document).on('ready', function() {
                         </p>
                     </div>
                     <div class="save-btn-div">
-                        <input type="submit" class="${submitClass}" value="${submitValue}">
-                        <button class="btn-cancel">Annulla</button>
+                        <input type="submit" class="${submitClass} btn btn-outline-secondary" value="${submitValue}">
+                        <button class="btn-cancel btn btn-outline-secondary">Annulla</button>
                     </div>
                 </form>
             </div>
@@ -176,10 +177,10 @@ $(document).on('ready', function() {
                     <td class="edit-inputs fax">${$('.fax-inp').val()}</td>
                     <td class="email">${$('.email-inp').val()}</td>
                     <td>
-                        <button class="btn-edit">Modifica</button>
+                        <button class="btn-edit btn btn-outline-secondary">Modifica</button>
                     </td>
                     <td>
-                        <button class="btn-delete">Elimina</button>
+                        <button class="btn-delete btn btn-outline-secondary">Elimina</button>
                     </td>
                 </tr>
             `
@@ -198,18 +199,60 @@ $(document).on('ready', function() {
             // Remove form and wrapper's bg class
             $(this).closest('.edit-div').remove();
             $('#myTable_wrapper').removeClass('my-table-wrapper');
+            $('#navbar').show();
+            $('footer').show();
         })
     });
 });
 
 $('#myTable').on('click', '.btn-delete', function() {
-    $(this).closest('tr').remove();
+    $('#myTable_wrapper').addClass('my-table-wrapper');
+    $('#navbar').hide();
+    $('footer').hide();
+    // Alert for confirmation
+    // let thisPos = $(this);
+    // function confirmCancel() {
+    //     if (confirm("Vuoi eliminare l'elemento?")) {
+    //         thisPos.closest('tr').remove();
+    //     } else {
+    //         return;
+    //     }
+    // }
+    // // confirmCancel();
+
+    thisPos = $(this);
+
+    // Confirmation message
+    $('#myTable').after(`
+        <div class="confirm-container">
+            <div class="edit-form confirm">
+                <p>Cancellare l'elemento?</p>
+                <div class="confirm-btns">
+                    <button class="btn btn-secondary btn-del-confirm">Sì</button>
+                    <button class="btn btn-secondary btn-no-del">No</button>
+                </div>
+            </div>
+        </div>
+    `);
+
+    $('.btn-del-confirm').on('click', function() {
+        $('.confirm-container').remove();
+        thisPos.closest('tr').remove();
+    });
+
+    $('.btn-no-del').on('click', function() {
+        $('.confirm-container').remove();
+        $('#myTable_wrapper').removeClass('my-table-wrapper');
+        $('#navbar').show();
+        $('footer').show();
+    });
 });
 
 
 $('#myTable').on('click', '.btn-edit', function() {
-    // Add class to make wrapper fixed
     $('#myTable_wrapper').addClass('my-table-wrapper');
+    $('#navbar').hide();
+    $('footer').hide();
     $(this).parent().parent().addClass('selectedRow');
     
     // Reinitialise "this" and call function for submit input
@@ -254,7 +297,7 @@ $('#myTable').on('click', '.btn-edit', function() {
                         <input class="edit-inputs piva-inp" value="${fillInput('td:eq(6)')}">
                     </p>
                     <p>
-                        <label>Codice ficale:</label>
+                        <label>Codice fiscale:</label>
                         <br>
                         <input class="edit-inputs cf-inp" value="${fillInput('td:eq(7)')}">
                     </p>
@@ -275,13 +318,13 @@ $('#myTable').on('click', '.btn-edit', function() {
                     </p>
                 </div>
                 <div class="save-btn-div">
-                    <input type="submit" class="${submitClass}" value="${submitValue}">
-                    <button class="btn-cancel">Annulla</button>
+                    <input type="submit" class="${submitClass} btn btn-outline-secondary" value="${submitValue}">
+                    <button class="btn-cancel btn btn-outline-secondary">Annulla</button>
                 </div>
             </form>
         </div>
     `;
-    $('.ragione-sociale-inp').trigger();
+    // $('.ragione-sociale-inp').trigger();
     $(this).closest('tr').after(form);
 
     // Add ID line
@@ -294,9 +337,45 @@ $('#myTable').on('click', '.btn-edit', function() {
     `)
 });
 
-$('body').on('click', '.btn-cancel', function(e) {
-    $(this).closest('.edit-div').remove();
-    $('#myTable_wrapper').removeClass('my-table-wrapper');    
+$('body').on('click', '.btn-cancel', function() {
+    // Alert for confirmation
+    let thisPos = $(this);
+    function confirmCancel() {
+        if (confirm("Vuoi tornare indietro?")) {
+          thisPos.closest('.edit-div').remove();
+          $('#myTable_wrapper').removeClass('my-table-wrapper');
+          $('#navbar').show();
+          $('footer').show();
+        } else {
+          return;
+        }
+    }
+    // confirmCancel();
+
+    // Confirmation message
+    $('#myTable').after(`
+        <div class="confirm-container">
+            <div class="edit-form confirm">
+                <p>Annullare l'inserimento?</p>
+                <div class="confirm-btns">
+                    <button class="btn btn-secondary btn-back-confirm">Sì</button>
+                    <button class="btn btn-secondary btn-no-back">No</button>
+                </div>
+            </div>
+        </div>
+    `);
+
+    $('.btn-back-confirm').on('click', function() {
+        thisPos.closest('.edit-div').remove();
+        $('#myTable_wrapper').removeClass('my-table-wrapper');
+        $('#navbar').show();
+        $('footer').show();
+        $('.confirm-container').remove();
+    });
+
+    $('.btn-no-back').on('click', function() {
+        $('.confirm-container').remove();
+    });
 });
 
 $('#myTable').on('click', '.btn-save', function() {
@@ -320,4 +399,6 @@ $('#myTable').on('click', '.btn-save', function() {
     $(this).closest('.edit-div').remove();
     selectedRow.removeClass('selectedRow');
     $('#myTable_wrapper').removeClass('my-table-wrapper');
+    $('#navbar').show();
+    $('footer').show();
 });

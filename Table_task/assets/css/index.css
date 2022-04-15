@@ -1,9 +1,50 @@
+:root {
+    --bg-white: rgba(233, 237, 240, 1);
+    --blue: rgb(0, 84,159);
+    --green: rgb(122, 184, 0);
+    --main: rgb(0, 139, 149);
+    --secondary: rgb(129, 138, 143);
+    --white: #e9edf0;
+}
+
 #myTable_wrapper {
     padding: 1%;
 }
 
+/*Navbar*/
+#navbar {
+    background-color: rgba(129, 138, 143, 0.6);
+    padding: 0px 40px 8px;
+    width: 100%;
+    z-index: 5;
+}
+
+thead {
+    font-weight: 600;
+}
+
+tbody tr:hover, thead td:hover, tbody tr:hover .sorting_1 {
+    background-color: rgba(122, 184, 0, 0.6) !important;
+}
+
+.logo-img {
+    height: 50px;
+}
+
+.nav-logo {
+    height: 60px;
+    overflow: hidden;
+    width: 105px;
+}
+
 .display {
     width: 100% !important;
+}
+
+input {
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 1%;
 }
 
 .edit-inputs {
@@ -12,6 +53,7 @@
 
 .edit-form {
     background-color: whitesmoke;
+    border-radius: 6px;
     padding: 3% 7%;
     width: 60%;
     position: absolute;
@@ -25,10 +67,10 @@
     margin: 10% 0 5% 0%;
 }
 
-.edit-div {
+.edit-div, .confirm-container {
     background-color: rgb(0 0 0 / 60%);
     justify-content: center;
-    height: 100vh;
+    height: 100vh !important;
     left: 0;
     overflow: hidden;
     position: absolute;
@@ -58,4 +100,71 @@
     flex-direction: row-reverse;
     justify-content: space-between;
     padding: 3% 8%;
+}
+
+.btn:hover {
+    background-color: var(--main) !important;
+}
+
+.btn:focus {
+    box-shadow: none !important;
+    border: 1px solid var(--main) !important;
+}
+
+.btn-delete:focus, .btn-cancel:focus, .btn-no-del:focus, .btn-no-back:focus {
+    border: 1px solid var(--blue) !important;
+}
+
+.btn-delete:hover, .btn-cancel:hover, .btn-no-del:hover, .btn-no-back:hover {
+    background-color: var(--blue) !important;
+}
+
+.btn-new:hover {
+    background-color: var(--green) !important;
+}
+
+.btn-new:focus {
+    border: 1px solid var(--green) !important;
+}
+
+/* Footer */
+footer {
+    font-size: 86%;
+}
+
+footer a {
+    color: black;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--blue);
+}
+
+footer .ftr {
+    background-color: rgba(129, 138, 143, 0.6);
+    color: black;
+    padding: 2% 8%;
+    margin-top: 2%;
+}
+
+footer .row {
+    --bs-gutter-x: 0rem;
+}
+
+.ftr .col {
+    padding: 0 3%;
+}
+
+.confirm {
+    width: 30%;
+}
+
+.confirm p {
+    text-align: center;
+}
+
+.confirm-btns {
+    display: flex;
+    justify-content: space-around;
 }
