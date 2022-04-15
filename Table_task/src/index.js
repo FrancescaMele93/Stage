@@ -8,19 +8,15 @@ let thisPos = $(this);
 
 // Fills the edit form's inputs with the values from the table
 function fillInput(position) {
-    console.log('fillInput')
     return thisPos.closest('tr').find(position).html();
 };
 
 // Changes the form's button's value and class, for saving or editing
 function fillSubmitClass() {
-    console.log('fillSubmitClass')
     if (fillInput('td:eq(0)')) {
-        console.log('if clause');
         submitClass = 'btn-save';
         submitValue = 'Salva';
     } else {
-        console.log('else clause');
         submitClass = 'btn-add';
         submitValue = 'Aggiungi';
     }
@@ -77,6 +73,8 @@ $(document).on('ready', function() {
         fillSubmitClass();
 
         // Open form for new entry
+        let inputValue;
+        // Add: value="${inputValue}"
         let newContactForm = `
             <div class="edit-div">
                 <form class="edit-form row">
@@ -142,6 +140,21 @@ $(document).on('ready', function() {
             </div>
         `;
         $('.btn-new').after(newContactForm);
+
+        // Attempt to make single form for new/edit
+        function fillNewForm() {
+            if (!inputValue) {
+                console.log('!good');
+                inputValue = 8;
+                console.log(inputValue)
+                $('.btn-new').after(newContactForm);
+            } else {
+                console.log('else')
+                inputValue = fillInput('td:eq(1)');
+                $('.btn-new').after(newContactForm);
+            }
+        }
+        // fillNewForm();
 
         // Manage Add button
         $('.btn-add').on('click', function(e) {
@@ -282,8 +295,6 @@ $('#myTable').on('click', '.btn-edit', function() {
 });
 
 $('body').on('click', '.btn-cancel', function(e) {
-    e.preventDefault();
-
     $(this).closest('.edit-div').remove();
     $('#myTable_wrapper').removeClass('my-table-wrapper');    
 });
