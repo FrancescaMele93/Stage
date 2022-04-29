@@ -1,3 +1,1 @@
-export const Part = ({part, exercise}) => (
-    <p>{part} {exercise}</p>
-);
+export const Part = ({part}) => <p>{part.name}: {part.exercises}</p>;
