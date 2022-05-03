@@ -2,6 +2,7 @@ export const Total = ({parts}) => {
     // Use reduce to get the sum of courses' exercises
     const total = parts.reduce(
         (sum, parts) => {
+            console.log(parts);
             return sum + parts.exercises
         },
         0
