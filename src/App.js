@@ -1,25 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Note } from "./Components/Note";
+import noteService from "./services/notes";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
-  const [placeholder, setPlaceholeder] = useState(
-    'Add another note'
-  );
   const [showAllNotes, setShowAllNotes] = useState(true);
-
+  
   useEffect(() => {
-    console.log('effect');
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-        console.log('promise fulfilled, bitches');
-        setNotes(response.data);
+    noteService
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes);
       });
-  }, [])
-  console.log('render', notes.length, 'notes');
+  }, []);
 
   const addNote = event => {
     event.preventDefault();
@@ -28,18 +23,31 @@ const App = () => {
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
-      id: notes.length + 1
     };
 
-    setNotes(notes.concat(newNoteObject));
-    // Give empty value to input field:
-    setNewNote('');
-    // ...so that it will only show the placeholder:
-    setPlaceholeder('Add another note');
+    // Old axios call:
+    // axios
+    //   .post(`http://localhost:3001/notes`, newNoteObject)
+    //   .then(response => {
+    //     // Update the notes to add the new one
+    //     setNotes(notes.concat(response.data));
+    //     // Give empty value to input field:
+    //     setNewNote('');
+    //     // ...so that it will only show the placeholder:
+    //     setPlaceholeder('Add another note');
+    //   });
+
+    noteService
+      .create(newNoteObject)
+      .then(returnedNote => {
+      // Update the notes to add the new one
+        setNotes(notes.concat(returnedNote));
+      // Give empty value to input field:
+        setNewNote('');
+      });
   };
 
   const handleChange = event => {
-    console.log(event.target.value, 'onchange value');
     setNewNote(event.target.value);
   };
 
@@ -48,16 +56,28 @@ const App = () => {
     ? notes
     : notes.filter(note => note.important);
 
-    // My own shittyattempt to solve the button thing
-    // (the good one is below, under this button)
-  const handleShowAll = e => {
-    // Change notes status
-    setShowAllNotes(!showAllNotes);
-    
-    // Change button text:
-    e.target.innerHTML = e.target.innerHTML === 'Show all notes'
-      ? e.target.innerHTML = 'Show important notes'
-      : e.target.innerHTML = 'Show all notes'
+  const placeholder = 'Add another note';
+
+  const toggleNoteImportance = id => {
+    // const url = `http://localhost:3001/notes/${id}`;
+    const noteToChange = notes.find(note => note.id === id);
+    const changedNote = {
+      ...noteToChange,
+      important: !noteToChange.important
+    };
+
+    // Old method:
+    // axios
+    //   .put(url, changedNote)
+    //   .then(response => {
+    //     setNotes(notes.map(note => note.id !== id ? note : response.data))
+    //   });
+
+    noteService
+      .update(id, changedNote)
+      .then(returnedNote => {
+        setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+      });
   };
 
   return (
@@ -65,7 +85,7 @@ const App = () => {
       <h1>Notes</h1>
       <ul>
         {notesToShow.map(note => 
-          <Note key={note.id} note={note} />
+          <Note key={note.id} note={note} toggleImportance={() => toggleNoteImportance(note.id)} />
         )}
       </ul>
       <form onSubmit={addNote}>
@@ -78,12 +98,8 @@ const App = () => {
       </form>
       <br></br>
       <div>
-        <button onClick={handleShowAll} title="buh">Show all notes</button>
-      </div>
-      <br></br>
-      <div>
         <button onClick={() => setShowAllNotes(!showAllNotes)}>
-          Show {showAllNotes ? 'important' : 'all'} notes
+          Show {showAllNotes ? "important notes" : "all notes"}
         </button>
       </div>
     </div>
